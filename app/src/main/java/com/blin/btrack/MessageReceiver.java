@@ -19,7 +19,28 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * Push消息?理receiver。???您需要的回?函?， 一般??： onBind是必?的，用??理startWork返回值；
+ * onMessage用?接收透?消息； onSetTags、onDelTags、onListTags是tag相?操作的回?；
+ * onNotificationClicked在通知被???回?； onUnbind是stopWork接口的返回值回?
+ *
+ * 返回值中的errorCode，解?如下：
+ *  0 - Success
+ *  10001 - Network Problem
+ *  30600 - Internal Server Error
+ *  30601 - Method Not Allowed
+ *  30602 - Request Params Not Valid
+ *  30603 - Authentication Failed
+ *  30604 - Quota Use Up Payment Required
+ *  30605 - Data Required Not Found
+ *  30606 - Request Time Expires Timeout
+ *  30607 - Channel Token Timeout
+ *  30608 - Bind Relation Not Found
+ *  30609 - Bind Number Too Many
+ *
+ * ?您遇到以上返回???，如果解?不了您的??，?用同一?求的返回值requestId和errorCode?系我?追查??。
+ *
+ */
 public class MessageReceiver extends FrontiaPushMessageReceiver{
 
 	public static final String ACTION_COMMUNICATION = "ACTION_COMMUNICATION";

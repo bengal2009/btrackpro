@@ -52,9 +52,11 @@ public class MainActivity extends Activity implements SendMsgAsyncTask.OnSendScu
 					Timestamp tt = new Timestamp(msg.getTime_samp());
 					msgLine = "收到消息"+tt.getHours()+":"+tt.getMinutes()
 							+"："+userNumber+msg.getMessage()+"\n";
+                    Log.i("onmessage","Onmessage start!");
+                    ((TextView)findViewById(R.id.shmsg)).append(msgLine);
 					Log.i("onReceive", msgLine);				} catch (Exception e) {
 					msgLine = "收到消息"+intent.getStringExtra("onMessage")+"\n";
-                    ((TextView)findViewById(R.id.shmsg)).append(msgLine);
+
 				}finally {
 					((TextView)findViewById(R.id.textView2)).append(msgLine);
 				}
