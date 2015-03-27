@@ -278,7 +278,7 @@ public class BackgoundService extends Service {
 		launchBaiduPushService();
 		registerNetworkReceiver();
 		Log.i("PushManager", "startWork");
-		notif(getApplicationContext(), "后台服务","推送后台正在?定??...");
+		notif(getApplicationContext(), "后台服务","推送后台正在绑定！...");
 	}
 	
 	private void registerMessageCommReceiver() {
@@ -329,7 +329,7 @@ public class BackgoundService extends Service {
 	private void notif(Context context,String ticker,String text,String userId,String channelId) {
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
 		mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
-		mBuilder.setAutoCancel(false);
+		mBuilder.setAutoCancel(true);
 		mBuilder.setOngoing(true);
 		mBuilder.setTicker(ticker);
 		mBuilder.setSmallIcon(R.drawable.ic_launcher);

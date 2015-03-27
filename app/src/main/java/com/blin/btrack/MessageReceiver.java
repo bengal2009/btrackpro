@@ -64,8 +64,8 @@ public class MessageReceiver extends FrontiaPushMessageReceiver{
 		String messageString = "传透消息 message=\"" + message
                 + "\" customContentString=" + customContentString;
 		Log.i("MessageReceiver", messageString);
-        Toast.makeText(arg0, message.toString(),
-                Toast.LENGTH_SHORT).show();
+     /*   Toast.makeText(arg0, message.toString(),
+                Toast.LENGTH_SHORT).show();*/
         Gson mGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
 				.create();
 		try {
