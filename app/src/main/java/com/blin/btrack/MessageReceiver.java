@@ -1,4 +1,5 @@
 package com.blin.btrack;
+
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,9 @@ import com.baidu.frontia.api.FrontiaPushMessageReceiver;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,8 +83,14 @@ public class MessageReceiver extends FrontiaPushMessageReceiver{
 		intent.putExtra("onBind", bindData);
 		LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 	}
-	
-	@Override
+
+    /**
+     * @ClassName: onmessage
+     * @Description:
+     * @author: Blin
+     */
+
+    @Override
 	public void onMessage(Context arg0, String message, String customContentString) {
 		String messageString = "传透消息 message=\"" + message
                 + "\" customContentString=" + customContentString;
@@ -94,7 +104,7 @@ public class MessageReceiver extends FrontiaPushMessageReceiver{
 			if (TextUtils.isEmpty(msg.getUser_id())) {
 				sendSimpleMessage(arg0, message);
 			}else {
-				Log.i("MessageReceiver", msg.getUser_id()+"<=>"+PushApplication.getInstance().getUserId());
+				Log.i("MessageReceiver", msg.getUser_id() + "<=>" + PushApplication.getInstance().getUserId());
 				if (!msg.getUser_id().equals(PushApplication.getInstance().getUserId())) {
 					deliverMessage(arg0, "onMessage",msg);
 				
@@ -108,12 +118,10 @@ public class MessageReceiver extends FrontiaPushMessageReceiver{
 		}
 		
 	}
-	
-	private void sendSimpleMessage(Context arg0, String message) {
-		deliverSimpleMessage(arg0, "onMessage", message);
-		Toast.makeText(arg0, "百度后台消息："+message, Toast.LENGTH_SHORT).show();
-	}
-	
+    private void sendSimpleMessage(Context arg0, String message) {
+        deliverSimpleMessage(arg0, "onMessage", message);
+        Toast.makeText(arg0, "百度后台消息："+message, Toast.LENGTH_SHORT).show();
+    }
 	Style newInboxStyle(String userNumber,List<Map<String, String>> msgList) {
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
         inboxStyle.setBigContentTitle(userNumber);
@@ -200,10 +208,30 @@ public class MessageReceiver extends FrontiaPushMessageReceiver{
 		
 	}
 
-	@Override
-	public void onNotificationClicked(Context arg0, String arg1, String arg2, String arg3) {
-		
-	}
+    @Override
+    public void onNotificationClicked(Context context, String title,
+                                      String description, String customContentString) {
+        String notifyString = "通知?? title=\"" + title + "\" description=\""
+                + description + "\" customContent=" + customContentString;
+        Log.d(TAG, notifyString);
+
+        // 自定??容?取方式，mykey和myvalue??通知推送?自定??容中?置的?和值
+        if (!TextUtils.isEmpty(customContentString)) {
+            JSONObject customJson = null;
+            try {
+                customJson = new JSONObject(customContentString);
+                String myvalue = null;
+                if (!customJson.isNull("mykey")) {
+                    myvalue = customJson.getString("mykey");
+                }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        // Demo更新界面展示代?，?用?在?里加入自己的?理??
+    }
 
 	@Override
 	public void onSetTags(Context arg0, int arg1, List<String> arg2, List<String> arg3, String arg4) {
