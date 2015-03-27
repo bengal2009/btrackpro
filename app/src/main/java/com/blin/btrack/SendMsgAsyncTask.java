@@ -64,7 +64,7 @@ public class SendMsgAsyncTask {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			Log.i("SendMsgAsyncTask","send msg result:"+result);
-			if (result.contains(BaiduPush.SEND_MSG_ERROR)) {// 如果消息?送失?，?100ms后重?
+			if (result.contains(BaiduPush.SEND_MSG_ERROR)) {// 如果消息发送失败，100ms后重送
 				mHandler.postDelayed(reSend, 100);
 			} else {
 				if (mListener != null)

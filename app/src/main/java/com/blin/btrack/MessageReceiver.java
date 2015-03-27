@@ -1,19 +1,7 @@
 package com.blin.btrack;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Intent.ShortcutIconResource;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Style;
@@ -26,6 +14,11 @@ import com.baidu.frontia.api.FrontiaPushMessageReceiver;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MessageReceiver extends FrontiaPushMessageReceiver{
 
@@ -52,7 +45,7 @@ public class MessageReceiver extends FrontiaPushMessageReceiver{
 		app.setUserId(userId);
 		app.setChannelId(channelId);
 		Log.i("MessageReceiver#onBind", responseString);
-		//sendData(context, "onBind","用?id："+ userId+"；?道Id:"+channelId);
+		//sendData(context, "onBind","用户id："+ userId+"；通道Id:"+channelId);
 		sendOnBind(context,errorCode, userId, channelId);
 	}
 
@@ -68,18 +61,19 @@ public class MessageReceiver extends FrontiaPushMessageReceiver{
 	
 	@Override
 	public void onMessage(Context arg0, String message, String customContentString) {
-		String messageString = "透?消息 message=\"" + message
+		String messageString = "传透消息 message=\"" + message
                 + "\" customContentString=" + customContentString;
-		Log.i("MessageReceiver#onMessage", messageString);
-		
-		Gson mGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
+		Log.i("MessageReceiver", messageString);
+        Toast.makeText(arg0, message.toString(),
+                Toast.LENGTH_SHORT).show();
+        Gson mGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
 				.create();
 		try {
 			Message msg = mGson.fromJson(message, Message.class);
 			if (TextUtils.isEmpty(msg.getUser_id())) {
 				sendSimpleMessage(arg0, message);
 			}else {
-				Log.i("MessageReceiver#onMessage.uid", msg.getUser_id()+"<=>"+PushApplication.getInstance().getUserId());
+				Log.i("MessageReceiver", msg.getUser_id()+"<=>"+PushApplication.getInstance().getUserId());
 				if (!msg.getUser_id().equals(PushApplication.getInstance().getUserId())) {
 					deliverMessage(arg0, "onMessage",msg);
 				
@@ -194,12 +188,12 @@ public class MessageReceiver extends FrontiaPushMessageReceiver{
 	public void onSetTags(Context arg0, int arg1, List<String> arg2, List<String> arg3, String arg4) {
 		StringBuilder sb = new StringBuilder();
 		if (arg1==0) {
-			sb.append("?置成功的tag:");
+			sb.append("设置成功的tag:");
 			for (String string : arg2) {
 				sb.append(string).append(";");
 			}
 		} else {
-			sb.append("?置失?的tag:");
+			sb.append("设置失败的tag:");
 			for (String string : arg3) {
 				sb.append(string).append(";");
 			}

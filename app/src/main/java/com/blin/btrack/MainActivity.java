@@ -36,7 +36,7 @@ public class MainActivity extends Activity implements SendMsgAsyncTask.OnSendScu
 				int errorCode =  bindData.getInt("errorCode");
 				String bindString;
 				if (errorCode==0) {
-					bindString = "用户id："+ bindData.getString("userId")+"通道Id:"+ bindData.getString("channelId");
+					bindString = " 用户id： "+ bindData.getString("userId")+" 通道Id: "+ bindData.getString("channelId");
 				}else {
 					bindString = "推送服务失败："+errorCode;
 				}
@@ -105,7 +105,7 @@ public class MainActivity extends Activity implements SendMsgAsyncTask.OnSendScu
 	public void sendScuess(String msg) {
 		Calendar calendar= Calendar.getInstance();
 		String time = calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE);
-		((TextView)findViewById(R.id.textView2)).append("已?出"+time+"："+curMsg+"\n");
+		((TextView)findViewById(R.id.textView2)).append("已送出"+time+"："+curMsg+"\n");
 	}
 
 	@Override

@@ -186,14 +186,14 @@ public class BackgoundService extends Service {
 	/**离??通知*/
 	private void issueNotificationWithNoConnective() {
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-		.setTicker("推送服?离?")
+		.setTicker("推送服务离开")
 		.setSmallIcon(R.drawable.ic_launcher)
-		.setContentTitle("后台服?")
+		.setContentTitle("后台服务")
 		.setContentText(userNumber+"(离?)");
 		mBuilder.setStyle(newInboxStyle(userId, channelId));
 		Intent intent = new Intent(this, BackgoundService.class);
 		intent.putExtra("rebound", true);
-		mBuilder.addAction(0, "重?", PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
+		mBuilder.addAction(0, "重送", PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
 		NotificationManager mNotifyMgr =  
 		        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mNotifyMgr.notify(BACK_GROUND_NOTIFICATION_ID, mBuilder.build(
@@ -206,11 +206,11 @@ public class BackgoundService extends Service {
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
 		.setTicker("推送服??定失?")
 		.setSmallIcon(R.drawable.ic_launcher)
-		.setContentTitle("后台服?")
+		.setContentTitle("后台服务")
 		.setContentText("???"+errorCode);
 		Intent intent = new Intent(this, BackgoundService.class);
 		intent.putExtra("rebound", true);
-		mBuilder.addAction(0, "重?", PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
+		mBuilder.addAction(0, "重发", PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
 		NotificationManager mNotifyMgr =  
 		        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mNotifyMgr.notify(BACK_GROUND_NOTIFICATION_ID, mBuilder.build(
@@ -221,13 +221,13 @@ public class BackgoundService extends Service {
 	private void issueNotificationWithBind(Context context,String userId,String channelId) {
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
 		mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
-		mBuilder.setContentTitle("后台服?");
+		mBuilder.setContentTitle("后台服务");
 		String userNumber = "No."+userId.substring(userId.length()-4);
 		this.userId = userId;
 		this.userNumber = userNumber;
 		this.channelId = channelId;
 		mBuilder.setContentText(userNumber);
-		mBuilder.setTicker("后台服?已?定");
+		mBuilder.setTicker("后台服务已确定");
 		mBuilder.setAutoCancel(false);
 		mBuilder.setSmallIcon(R.drawable.ic_launcher);
 		mBuilder.setOngoing(true);
@@ -244,8 +244,8 @@ public class BackgoundService extends Service {
 	Style newInboxStyle(String userId,String channelId) {
 		
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-        inboxStyle.setBigContentTitle("后台服?");
-        inboxStyle.setSummaryText("推送服?已?定??");
+        inboxStyle.setBigContentTitle("后台服务");
+        inboxStyle.setSummaryText("推送服务已确定");
         inboxStyle.addLine("userId: " + userId);
         inboxStyle.addLine("channelId: " + channelId);
         return inboxStyle;
@@ -271,7 +271,7 @@ public class BackgoundService extends Service {
 		launchBaiduPushService();
 		registerNetworkReceiver();
 		Log.i("PushManager", "startWork");
-		notif(getApplicationContext(), "??服?","推送后台正在?定??...");
+		notif(getApplicationContext(), "后台服务","推送后台正在?定??...");
 	}
 	
 	private void registerMessageCommReceiver() {
@@ -326,7 +326,7 @@ public class BackgoundService extends Service {
 		mBuilder.setOngoing(true);
 		mBuilder.setTicker(ticker);
 		mBuilder.setSmallIcon(R.drawable.ic_launcher);
-		mBuilder.setContentTitle("后台服?");
+		mBuilder.setContentTitle("后台服务");
 		mBuilder.setContentText(text);
 		NotificationManager mNotifyMgr =  
 		        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
