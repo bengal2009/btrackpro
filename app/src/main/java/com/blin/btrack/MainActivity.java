@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -39,7 +40,9 @@ public class MainActivity extends Activity implements SendMsgAsyncTask.OnSendScu
 					bindString = " 用户id： "+ bindData.getString("userId")+" 通道Id: "+ bindData.getString("channelId");
 				}else {
 					bindString = "推送服务失败："+errorCode;
-				}
+                    Toast.makeText(getApplicationContext(), "推送服务失败："+errorCode,
+                            Toast.LENGTH_LONG).show();
+                }
 				((TextView)findViewById(R.id.textView1)).append(bindString);
 			}else if (intent.hasExtra("onMessage")) {
 				String msgLine = "";

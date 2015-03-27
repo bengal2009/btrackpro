@@ -60,7 +60,7 @@ public class SetTagTask {
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			Log.i("SetTagsTask#onPostExecute",result);
+			Log.i("SetTagsTask",result);
 				if (mListener != null)
 					mListener.sendSetTagsScuess();
 		}

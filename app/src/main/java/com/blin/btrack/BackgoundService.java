@@ -46,8 +46,9 @@ public class BackgoundService extends Service {
 	private String userId;
 	private String channelId;
 	private String userNumber;
-	
-	BroadcastReceiver commReceiver = new BroadcastReceiver() {
+
+
+    BroadcastReceiver commReceiver = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -59,7 +60,13 @@ public class BackgoundService extends Service {
 				if (isBaiduPushStarted) {
 					String userId = bindData.getString("userId");
 					String channelId = bindData.getString("channelId");
-					issueNotificationWithBind(context, userId, channelId);
+                    /**
+                     * @ClassName:commReceiver
+                     * @Descriptio: 綁定成
+                     * @author: Blin
+                     */
+//                    綁定成功通知
+//					issueNotificationWithBind(context, userId, channelId);
 				}else {
 					issueNotificationWithBindFaild(errorCode);
 				}
@@ -89,7 +96,7 @@ public class BackgoundService extends Service {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			boolean noNetworkAvailable = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
-			Log.i("网??化", noNetworkAvailable?"?有网?":"有网");
+			Log.i("网路", noNetworkAvailable ? "没有网" : "有网");
 			if (noNetworkAvailable) {//离?
 				issueNotificationWithNoConnective();
 			}else if (!isBaiduPushStarted) {//尚未??推?并且有网了
@@ -150,7 +157,7 @@ public class BackgoundService extends Service {
 		protected void onPostExecute(Bitmap result) {
 			super.onPostExecute(result);
 			if (result!=null) {
-				Log.i("onPostExecute", result.getWidth()+"");
+				Log.i("onPostExecute", result.getWidth() + "");
 				if (shortcut.sendAsNotification) {
 					notifMessage(getApplicationContext(),  shortcut.name, shortcut.openUrl, result);
 				}
@@ -189,7 +196,7 @@ public class BackgoundService extends Service {
 		.setTicker("推送服务离开")
 		.setSmallIcon(R.drawable.ic_launcher)
 		.setContentTitle("后台服务")
-		.setContentText(userNumber+"(离?)");
+		.setContentText(userNumber+"(离开)");
 		mBuilder.setStyle(newInboxStyle(userId, channelId));
 		Intent intent = new Intent(this, BackgoundService.class);
 		intent.putExtra("rebound", true);
@@ -232,7 +239,7 @@ public class BackgoundService extends Service {
 		mBuilder.setSmallIcon(R.drawable.ic_launcher);
 		mBuilder.setOngoing(true);
 		mBuilder.setStyle(newInboxStyle(userId, channelId));
-		mBuilder.addAction(0, "打?", null);
+		mBuilder.addAction(0, "打开", null);
 		mBuilder.addAction(0, "??", null);
 		mBuilder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.huli));
 		NotificationManager mNotifyMgr =  
@@ -297,7 +304,7 @@ public class BackgoundService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		//notif(getApplicationContext(), "?始?行","后台服?正在?行");
-		Log.i("BackgoundService", "onStartCommand"+startId);
+		Log.i("BackgoundService", "onStartCommand" + startId);
 		if(intent!=null&&intent.hasExtra("rebound")) {
 			if (intent.getBooleanExtra("rebound", false)) {
 				launchBaiduPushService();//重新?定
@@ -312,7 +319,7 @@ public class BackgoundService extends Service {
 		Log.i("BackgoundService", "onDestroy");
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(commReceiver);
 		unregisterReceiver(networkReceiver);
-		notif(getApplicationContext(), "后台服??束","后台服?已停止");
+		notif(getApplicationContext(), "后台服务结束","后台服务已停止");
 	}
 	
 	private void notif(Context context,String ticker,String text) {
